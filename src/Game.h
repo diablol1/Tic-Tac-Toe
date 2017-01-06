@@ -15,5 +15,6 @@ private:
 	sf::Texture emptyFieldTexture;
 	sf::Sprite fields[3][3];
 
+	void processEvents();
 	void render();
 };

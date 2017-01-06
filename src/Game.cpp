@@ -20,7 +20,18 @@ void Game::start()
 {
 	while (window.isOpen())
 	{
+		processEvents();
 		render();
+	}
+}
+
+void Game::processEvents()
+{
+	sf::Event event;
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed)
+			window.close();
 	}
 }
 
