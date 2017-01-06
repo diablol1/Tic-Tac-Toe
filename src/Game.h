@@ -13,6 +13,9 @@ private:
 	sf::RenderWindow window;
 
 	sf::Texture emptyFieldTexture;
+	sf::Texture circleFieldTexture;
+	sf::Texture crossFieldTexture;
+
 	sf::Sprite fields[3][3];
 
 	void processEvents();

@@ -5,6 +5,8 @@
 Game::Game() : window(sf::VideoMode(300, 300, sf::Style::Titlebar), "Tic-Tac-Toe")
 {
 	emptyFieldTexture.loadFromFile("img/emptyField.png");
+	circleFieldTexture.loadFromFile("img/circleField.png");
+	crossFieldTexture.loadFromFile("img/crossField.png");
 
 	for (int i = 0; i < 3; i++)
 	{
