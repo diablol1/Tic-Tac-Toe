@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <array>
+#include <iostream>
 
 class Game
 {
@@ -20,4 +20,6 @@ private:
 
 	void processEvents();
 	void render();
+
+	bool isCursorOn(const sf::FloatRect& rect);
 };
