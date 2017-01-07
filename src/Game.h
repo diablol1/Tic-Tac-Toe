@@ -3,6 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#include "Field.h"
+#include "Enums.h"
+
 class Game
 {
 public:
@@ -10,16 +13,15 @@ public:
 
 	void start();
 private:
+	TextureCache textureCache;
+
 	sf::RenderWindow window;
 
-	sf::Texture emptyFieldTexture;
-	sf::Texture circleFieldTexture;
-	sf::Texture crossFieldTexture;
+	Field fields[3][3];
+	ft::FieldTypes currentFieldTypeToSet;
 
-	sf::Sprite fields[3][3];
+	void changeCurrentFieldTypeToContrary();
 
 	void processEvents();
 	void render();
-
-	bool isCursorOn(const sf::FloatRect& rect);
 };

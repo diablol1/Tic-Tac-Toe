@@ -2,18 +2,17 @@
 
 #include "Game.h"
 
-Game::Game() : window(sf::VideoMode(300, 300, sf::Style::Titlebar), "Tic-Tac-Toe")
+Game::Game() : window(sf::VideoMode(300, 300, sf::Style::Titlebar), "Tic-Tac-Toe"),
+	currentFieldTypeToSet(ft::FieldTypes::CIRCLE)
 {
-	emptyFieldTexture.loadFromFile("img/emptyField.png");
-	circleFieldTexture.loadFromFile("img/circleField.png");
-	crossFieldTexture.loadFromFile("img/crossField.png");
 
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			fields[i][j].setTexture(emptyFieldTexture);
-			fields[i][j].setPosition(emptyFieldTexture.getSize().x * i, emptyFieldTexture.getSize().y * j);
+			fields[i][j] = Field(&textureCache,
+				sf::Vector2f(textureCache.get("emptyField").getSize().x * i,
+					textureCache.get("emptyField").getSize().y * j));
 		}
 	}
 }
@@ -21,12 +20,18 @@ Game::Game() : window(sf::VideoMode(300, 300, sf::Style::Titlebar), "Tic-Tac-Toe
 void Game::start()
 {
 	while (window.isOpen())
-
-
 	{
 		processEvents();
 		render();
 	}
+}
+
+void Game::changeCurrentFieldTypeToContrary()
+{ 
+	if (currentFieldTypeToSet == ft::FieldTypes::CIRCLE)
+		currentFieldTypeToSet = ft::FieldTypes::CROSS;
+	else
+		currentFieldTypeToSet = ft::FieldTypes::CIRCLE;
 }
 
 void Game::processEvents()
@@ -42,8 +47,13 @@ void Game::processEvents()
 			{
 				for (int j = 0; j < 3; j++)
 				{
-					if (isCursorOn(fields[i][j].getGlobalBounds()))
+					if (fields[i][j].isHover(window) && fields[i][j].type == ft::FieldTypes::EMPTY)
+					{
 						std::cout << "Clicked button: " << "X: " << i << " " << "Y: " << j << std::endl;
+						fields[i][j].setFieldType(currentFieldTypeToSet);
+						changeCurrentFieldTypeToContrary();
+						i = 3; //To break parent loop
+					}
 				}
 			}
 		}
@@ -62,9 +72,4 @@ void Game::render()
 		}
 	}
 	window.display();
-}
-
-bool Game::isCursorOn(const sf::FloatRect& rect)
-{
-	return sf::IntRect(rect).contains(sf::Mouse::getPosition(window));
 }
